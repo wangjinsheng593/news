@@ -1,4 +1,5 @@
 'use strict';
+
 //获取数据库的引用
 const db =uniCloud.database()
 exports.main = async (event, context) => {

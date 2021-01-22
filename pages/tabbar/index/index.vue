@@ -2,6 +2,8 @@
 	<view class="home">
 		<!-- 自定义导航栏 -->
 		<navbar></navbar>
+		
+		
 		<tab :list='tabList'@tab="tab"></tab>
 		
 		<list-scroll>
