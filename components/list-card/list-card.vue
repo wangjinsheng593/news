@@ -1,30 +1,87 @@
 <template>
 	<view class="">
 		<!-- 基础卡片 -->
-		<view class="listcard">
+		<view v-if="item.mode=='base'" class="listcard">
 			<view class="listcard-image">
-				<image src="../../static/logo.png" mode=""></image>
+				<image :src="item.cover[0]" mode=""></image>
 			</view>
 			<view class="listcard-content">
 				<view class="listcard-content_title">
-					<text>uni-app开发框架uni-app开发框架uni-app开发框架uni-app开发框架uni-app开发框架uni-app开发框架uni-app开发框架uni-app开发框架uni-app开发框架uni-app开发框架</text>
+					<text>{{item.title}}</text>
 				</view>
 				<view class="listcard-content_des">
 					<view class="listcard-content_des-label">
 						<view class="listcard-content_des-item">
-							前端
+							{{item.classify}}
 						</view>
 					</view>
 					<view class="listcard-content_des-browse">
-						120浏览
+						{{item.browse_count}}浏览
 					</view>
 				</view>
 			</view>
 		</view>
+		
+		<!-- 多图模式 -->
+		<view v-if="item.mode=='image'" class="listcard mode-column">
+			<view class="listcard-content">
+				<view class="listcard-content_title">
+					<text>{{item.title}}</text>
+				</view>
+				<view class="listcard-image">
+					<view class="listcard-image_item" v-if="index<3" v-for="(suItem,index) in item.cover" :key="index">
+						<image  :src="suItem" mode="aspectFill"></image>
+					</view>
+				</view>
+				<view class="listcard-content_des">
+					<view class="listcard-content_des-label">
+						<view class="listcard-content_des-item">
+							{{item.classify}}
+						</view>
+					</view>
+					<view class="listcard-content_des-browse">
+						{{item.browse_count}}浏览
+					</view>
+				</view>
+			</view>
+		</view>
+		
+		<!-- 大图模式 -->
+		<view v-if="item.mode=='column'" class="listcard mode-image">
+			<view class="listcard-image">
+				<image  :src="item.cover[0]" mode="aspectFill"></image>
+			</view>
+			<view class="listcard-content">
+				<view class="listcard-content_title">
+					<text>{{item.title}}</text>
+				</view>
+				<view class="listcard-content_des">
+					<view class="listcard-content_des-label">
+						<view class="listcard-content_des-item">
+						{{item.classify}}
+						</view>
+					</view>
+					<view class="listcard-content_des-browse">
+						{{item.browse_count}}浏览
+					</view>
+				</view>
+			</view>
+		</view>
+		
 	</view>
 </template>
 
 <script>
+	export default{
+		props:{
+			item:{
+				type:Object,
+				default(){
+					return {}
+				}
+			}
+		}
+	}
 </script>
 
 <style lang="scss">
@@ -87,5 +144,55 @@
 			}
 			
 		}
+		
+		&.mode-column{
+			.listcard-content{
+				width: 100%;
+				padding-left: 0;
+			}
+			.listcard-image{
+				display: flex;
+				margin-top: 10px;
+				width: 100%;
+				height: 70px;
+				.listcard-image_item{
+					margin-left: 10px;
+					width: 100%;
+					border-radius: 5px;
+					overflow: hidden;
+					&:first-child{
+						margin-left: 0;
+					}
+					image{
+						width: 100%;
+						height: 100%;
+					}
+				}
+				
+			}
+			.listcard-content_des{
+				margin-top: 10px;
+			}
+			
+		}
+		&.mode-image{
+			flex-direction: column;
+			.listcard-image {
+				width: 100%;
+				height: 100px;
+			}
+			.listcard-content{
+				padding-left: 0;
+				margin-top: 10px;
+				.listcard-content_des{
+					display: flex;
+					align-items: center;
+					margin-top: 10px;
+				}
+				
+			}
+			
+		}
+	  
 	}
 </style>

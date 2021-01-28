@@ -3,40 +3,45 @@
 		<!-- 自定义导航栏 -->
 		<navbar></navbar>
 		
+		<tab :list='tabList' @tab="tab" :tabIndex='tabIndex'></tab>
+		<view class="home-list">
+			<list :tab="tabList" :activeIndex='activeIndex' @change='change'></list>
+		</view>
 		
-		<tab :list='tabList'@tab="tab"></tab>
-		
-		<list-scroll>
-			<list-card v-for="item in 5" :key="item"></list-card>
-		</list-scroll>
+
 	</view>
 </template>
 
 <script>
 	//easyCom 组件是components/组件/组件.vue则不需要引入,只是局部引入,也不需要注册
-	import ListCard from "@/components/list-card/list-card.vue"
-	import ListScroll from "@/components/list-scroll/list-scroll.vue"
+	import List from "@/components/list/list.vue"
 	import NavBar from "@/components/navbar/navbar.vue"
 	import Tab from "@/components/tab/tab.vue"
 	export default {
 		components:{
 			NavBar,
 			Tab,
-			ListScroll,
-			ListCard
+			List
 		},
 		data() {
 			return {
 				title: 'Hello',
-				tabList:[]
+				tabList:[],
+				tabIndex:0,
+				activeIndex:0,
 			}
 		},
 		onLoad() {
 			this.getlabel()
 		},
 		methods: {
+			change(current){
+				this.tabIndex = current
+			},
+			
 			tab({data,index}){
 				console.log(data,index)
+				this.activeIndex = index
 			},
 			getlabel(){
 				this.$api.get_label({
@@ -60,8 +65,12 @@
 		display: flex;
         flex-direction: column;
 		flex: 1;
-		border: 1px red solid;
 		overflow: hidden;
+		.home-list{
+			flex: 1;//内容铺满
+			box-sizing: border-box;
+			
+		}
 		
 	}
 

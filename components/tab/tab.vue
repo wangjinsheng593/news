@@ -30,14 +30,26 @@
 				default:()=>{
 					return []
 				}
+			},
+			tabIndex:{
+				type:Number,
+				default:0,
 			}
 		},
+		
+		watch:{
+			tabIndex(newVal){
+				this.activeIndex = newVal
+			}
+		},
+		
 		data() {
 			return {
 				activeIndex:0
 	
 			};
 		},
+		
 		methods:{
 			clickTab(item,index){
 				this.activeIndex = index

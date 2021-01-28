@@ -11,5 +11,5 @@ exports.main = async (event, context) => {
 	  code:200,
 	  msg:'数据请求成功',
 	  data:label.data
-  }
+    }
 };
