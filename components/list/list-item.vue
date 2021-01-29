@@ -1,6 +1,7 @@
 <template>
-	<list-scroll class="list-scroll">
+	<list-scroll class="list-scroll" @loadmore='loadmore'>
 		<list-card v-for="item in list" :item='item' :key='item._id' mode="base"></list-card>
+	    <uni-load-more v-if="list.length===0 || list.length>9" iconType="snow" :status="load.loading"></uni-load-more>
 	</list-scroll>
 </template>
 
@@ -15,6 +16,15 @@
 					return[]
 				}
 			},
+			load:{
+				type:Object,
+				default(){
+					return{
+						loading:'loading'
+					}
+				}
+				
+			}
 			
 		},
 		components:{
@@ -26,6 +36,11 @@
 	
 			}
 		},
+		methods:{
+			loadmore(){
+				this.$emit('loadmore')
+			}
+		}
 	}
 </script>
 

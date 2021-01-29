@@ -37,17 +37,19 @@
 		methods: {
 			change(current){
 				this.tabIndex = current
+				this.activeIndex = current
 			},
 			
 			tab({data,index}){
-				console.log(data,index)
 				this.activeIndex = index
 			},
 			getlabel(){
 				this.$api.get_label({
 					name:"get_lable"
 				}).then(res=>{
-					this.tabList = res.data
+					let { data } = res
+					data.unshift({name:'全部'})
+					this.tabList = data
 				})
 		
 			}
