@@ -20,7 +20,6 @@
 		methods:{
 			loadmore(){
 				this.$emit('loadmore')
-				
 			}
 		}
 	}
