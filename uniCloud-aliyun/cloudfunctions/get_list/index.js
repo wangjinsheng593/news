@@ -2,9 +2,10 @@
 
 //获取数据库的引用
 const db =uniCloud.database()
+const  $ = db.command.aggregate //集合的操作符
 exports.main = async (event, context) => {
 	//接收分类，通过分类去刷选数据
-	const { name,page=1,pageSize=10 } =event
+	const { name,user_id,page=1,pageSize=10 } =event
 	
 	let matchObj = {}
 	if(name !== '全部'){
@@ -12,8 +13,16 @@ exports.main = async (event, context) => {
 			classify:name
 		}
 	}
+	
+	const userInfo =await db.collection('user').doc(user_id).get()
+	const article_likes_ids = userInfo.data[0].article_likes_ids
 	//集合：更精细化的去处理数据 求和 分组 指定的那些字段
-	const list = await db.collection('article').aggregate()
+	const list = await db.collection('article')
+	.aggregate()
+	.addFields({
+		//追加字段
+		is_like:$.in(['$_id',article_likes_ids]) //$.in()表示某个数组里面包含了某个字段
+	})
 	.match(matchObj)
 	.project({
 		context:false
