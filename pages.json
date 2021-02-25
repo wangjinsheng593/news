@@ -22,6 +22,31 @@
 			}
         }
      
+        ,{
+            "path" : "pages/home-search/home-search",
+            "style" :                                                                                    
+            {
+                 "navigationStyle":"custom"
+            }
+            
+        }
+        ,{
+            "path" : "pages/home-label/home-label",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "标签管理"
+            }
+            
+        }
+        ,{
+            "path" : "pages/home-detail/home-detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

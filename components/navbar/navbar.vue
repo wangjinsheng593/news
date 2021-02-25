@@ -6,13 +6,20 @@
 			<view :style="{height:statusBarHeight+'px'}"></view>
 			<!-- #endif -->
 			<!-- 导航栏内容 -->
-			<view class="navbar-content"  :style="{height:navBarHeight+'px',width:windowWidth+'px'}">
-				<view  class="navbar-search">
+			<view @click.stop="open" :class="{search:isSearch}" class="navbar-content"  :style="{height:navBarHeight+'px',width:windowWidth+'px'}">
+				<view v-if="isSearch" class="navbar-content__search-icons" @click="back">
+					<uni-icons  type="back" size="22" color="#fff"></uni-icons>
+				</view>
+				<view v-if="!isSearch"  class="navbar-search">
 					<!-- 非搜索页显示 -->
 					<view class="navbar-search_icon">
 						<uni-icons type="search" size="16" color="#999"></uni-icons>
 					</view>
 					<view class="navbar-search_text">uni-app、vue</view>
+				</view>
+				<view v-else  class="navbar-search">
+					<!-- 搜索页显示 -->
+					<input class="navbar-search_text" @input='inputChange' type="text" v-model="val" placeholder="请输入您要搜索的内送"/>
 				</view>
 			</view>
 		</view>
@@ -22,13 +29,30 @@
 
 <script>
 	export default {
+		props:{
+			value:{
+				type:[String,Array],
+				default:''
+			},
+			isSearch:{
+				type:Boolean,
+				default:false
+			}
+		},
 
 		data() {
 			return {
 				statusBarHeight: 20,
 				navBarHeight: 45,
 				windowWidth: 375,
+				val:''
 			};
+		},
+		watch:{
+			value(newVal){
+				this.val = newVal
+				
+			}
 		},
 	
 		created() {
@@ -52,6 +76,22 @@
 
 		},
 		methods: {
+			back(){
+				uni.switchTab({
+					url:'../../pages/tabbar/index/index'
+				})
+			},
+			open(){
+				if(this.isSearch) return
+				uni.navigateTo({
+					url:'/pages/home-search/home-search'
+				})
+			},
+			inputChange(e){
+				const { value } =e.detail
+				this.$emit('input',value)
+				
+			}
 	
 		}
 	}

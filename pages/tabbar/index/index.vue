@@ -32,6 +32,13 @@
 			}
 		},
 		onLoad() {
+			//接受自定义事件
+			uni.$on('labelChange',(res)=>{
+				this.tabList=[]
+				this.tabIndex = 0
+				this.activeIndex= 0
+				this.getlabel()
+			})
 			this.getlabel()
 		},
 		methods: {
@@ -44,9 +51,7 @@
 				this.activeIndex = index
 			},
 			getlabel(){
-				this.$api.get_label({
-					name:"get_lable"
-				}).then(res=>{
+				this.$api.get_label().then(res=>{
 					let { data } = res
 					data.unshift({name:'全部'})
 					this.tabList = data

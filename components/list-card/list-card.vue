@@ -91,7 +91,20 @@
 		methods:{
 			//打开详情
 			open(){
-				console.log("打开详情页面	")
+				const item = this.item
+				this.$emit('click',item)
+				const params = {
+					_id:item._id,
+					title:item.title,
+					author:item.author,
+					create_time:item.create_time,
+					thumbs_up_count:item.thumbs_up_count,
+					browse_count:item.browse_count
+				}
+				//传参数注意长度
+				uni.navigateTo({
+					url:"/pages/home-detail/home-detail?params="+JSON.stringify(params) 
+				})
 			}
 		}
 	}
