@@ -25,8 +25,8 @@
 			</view>
 			<view class="detail-comment">
 				<view class="comment-title">最新评论</view>
-				<view class="comment-content">
-					<comments-box></comments-box>
+				<view class="comment-content" v-for="item in commentsList" :key='item.comment_id' >
+					<comments-box :comments='item' @reply='reply'></comments-box>
 				</view>
 				
 			</view>
@@ -78,12 +78,15 @@
 				formData:{},
 				noData:'<p style="text-align:center;color:#666">详情加载中...</p>',
 				//输入框的值
-				commentsValue:''
+				commentsValue:'',
+				commentsList:[],
+				replyFormData:{}
 			}
 		},
 		onLoad(query) {
 			this.formData = JSON.parse(query.params)
 			this.getDetail()
+			this.getComments()
 			
 		},
 		onReady() {
@@ -92,6 +95,7 @@
 		methods: {
 			//打开评论发布窗口
 			openComment(){
+			
 				this.$refs.popup.open();
 			},
 			
@@ -109,22 +113,38 @@
 					})
 					return
 				}
-				this.setUpdateComment(this.commentsValue)
+				this.setUpdateComment({
+					content:this.commentsValue,
+					...this.replyFormData
+					})
 				
 				
 			},
+			reply(e){
+				this.replyFormData = {
+					'comment_id':e.comments.comment_id,
+					'is_reply':e.is_reply
+				}
+				if(e.comments.reply_id){
+					this.replyFormData.reply_id = e.comments.reply_id
+				}
+				this.openComment()
+			},
 			setUpdateComment(content){
-				uni.showLoading()
-				this.$api.update_comment({
+				const formData = {
 					article_id:this.formData._id,
-					content
-				}).then((res)=>{
-					this.close()
+					...content
+				}
+				uni.showLoading()
+				this.$api.update_comment(formData).then((res)=>{
 					uni.hideLoading()
 					uni.showToast({
 						title:"评论发布成功",
 					})
-					console.log('发布：',res)
+					this.getComments()
+					this.close()
+					this.replyFormData = {}
+					this.commentsValue = ''
 				})
 			},
 			
@@ -137,6 +157,17 @@
 						this.formData = data
 				})
 			},
+			
+			//请求评论内容
+			getComments(){
+				this.$api.get_comments({
+					article_id:this.formData._id,
+					}).then((res)=>{
+						const { data } = res
+						this.commentsList = data
+				})
+				
+			}
 	
 			
 		}
