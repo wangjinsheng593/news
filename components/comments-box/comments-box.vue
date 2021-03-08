@@ -11,7 +11,7 @@
 				    <text class="reply-text">回复</text>
 					{{comments.to}}
 				</view>
-				<view class="">{{comments.create_time}}</view>
+				<view class="">{{comments.create_time | formatTime}}</view>
 			</view>
 			
 		</view>
@@ -31,8 +31,9 @@
 </template>
 
 <script>
+	import { parseTime } from "@/utils/index.js"
 	// 递归组件：在自己组件内调用自己，会出现的一个问题：无限调用
-		import commentsBox from '@/components/comments-box/comments-box.vue'
+	import commentsBox from '@/components/comments-box/comments-box.vue'
 	export default {
 		name: "comments-box",
 		components: {
@@ -48,6 +49,12 @@
 			reply:{
 				type:Boolean,
 				default:false
+			}
+		},
+		//计算属性，用法： A | B(c，d)   A作为B的第一个参数传入给B，c和d作为第三第四个参数
+		filters:{
+			formatTime(time){
+				return parseTime(time)
 			}
 		},
 

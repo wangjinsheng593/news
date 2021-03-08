@@ -45,8 +45,13 @@
 		
 		//onLoad 在页面使用， created 在组件使用
 		created(){
-			//TODO tab还没有赋值
-			//this.getList(0)
+			//里面组件点击收藏之后，也要通知外面的收藏更新
+			uni.$on('update_article',()=>{
+				this.listCatchData = {}
+				this.load = {}
+				this.getList(this.activeIndex)
+			})
+		
 		},
 		
 		methods:{
