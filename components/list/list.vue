@@ -24,7 +24,8 @@
 		components:{
 			listItem,
 		},
-	
+	  
+      
 		data() {
 			return {
 				list:[],
