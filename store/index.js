@@ -8,10 +8,14 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
 	//数据源
 	state:{
+		userInfo:uni.getStorageSync('USERINFO') || {},
 		//持久化缓存，vuex刷新就会清空数据，所以需要缓存本地
 		historyLists:uni.getStorageSync('_histtory') || []
 	},
 	mutations:{
+		SET_USER_INFO(state,userInfo){
+			state.userInfo = userInfo 
+		},
 		SET_HISTORY_LISTS(state,history){
 			state.historyLists = history 
 		},
@@ -20,6 +24,10 @@ const store = new Vuex.Store({
 		}
 	},
 	actions:{
+		set_userInfo({commit},userInfo){
+			uni.setStorageSync('USERINFO',userInfo)
+			commit('SET_USER_INFO',userInfo)
+		},
 		//history是组件传递进来的数据
 		set_history({commit,state},history){
 			let list = state.historyLists
