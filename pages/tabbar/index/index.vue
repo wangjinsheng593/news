@@ -13,6 +13,7 @@
 </template>
 
 <script>
+	import {mapState} from "vuex"
 	//easyCom 组件是components/组件/组件.vue则不需要引入,只是局部引入,也不需要注册
 	import List from "@/components/list/list.vue"
 	import NavBar from "@/components/navbar/navbar.vue"
@@ -31,6 +32,14 @@
 				activeIndex:0,
 			}
 		},
+		computed:{
+			...mapState(['userInfo'])
+		},
+		watch:{
+			userInfo(newVal){
+				this.getlabel()
+			}
+		},
 		onLoad() {
 			//接受自定义事件
 			uni.$on('labelChange',(res)=>{
@@ -39,7 +48,6 @@
 				this.activeIndex= 0
 				this.getlabel()
 			})
-			this.getlabel()
 		},
 		methods: {
 			change(current){

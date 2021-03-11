@@ -18,7 +18,7 @@
 				</swiper-item>
 				<swiper-item class="swiper-item">
 					<list-scroll>
-						<list-author v-for="(item,index) in  authorLists" :key="item.id+index" :item="item"></list-author>
+						<list-author v-for="(item,index) in  authorLists" :key="index" :item="item"></list-author>
 						<view class="no-data" v-if="followShow">没有关注作者</view>
 					</list-scroll>
 				</swiper-item>

@@ -31,7 +31,6 @@
 				<view class="comment-content" v-for="item in commentsList" :key='item.comment_id' >
 					<comments-box :comments='item' @reply='reply'></comments-box>
 				</view>
-				
 			</view>
 		</view>
 		<view class="detail-bottom">
@@ -297,8 +296,11 @@
 				}
 			}
 			.detail-header_button{
+				padding: 0 15px;
 				flex-shrink: 0;
 				height: 30px;
+				line-height: 30px;
+				border-radius: 5px;
 				font-size: 12px;
 				color: #ffff;
 				background-color: $mk-base-color;
