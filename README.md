@@ -1,5 +1,5 @@
-# imooc-news
-imooc-news之Uni-App练手项目
+# news
+news之Uni-App练手项目
 
 
 ## Project setup
